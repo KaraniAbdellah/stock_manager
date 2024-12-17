@@ -8,7 +8,7 @@ class Product {
         this.price = price;
         this.quantity = quantity;
     }
-} 
+}
 
 module.exports = Product;
 

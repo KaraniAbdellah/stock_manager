@@ -27,6 +27,7 @@
 */
 
 const fs = require("fs"); // file system
+
 // console.log(fs); // get all functions
 
 // fs.readFile(JsonFile, function(err, data) {
@@ -56,34 +57,42 @@ const fs = require("fs"); // file system
 
 function SaveProduct(name, description, quantity, price) {
     
-    let ArrayProduct = [];
+    let ArrayProduct;
+    // Create Product as JSON Object
     let ProductObj = {   
         name: name,
         description: description,
         quantity: quantity,
         price: price
     };
-    ProductObj = JSON.stringify(ProductObj);
     console.log(ProductObj);
 
+    // Get The Old Products & Add New Product
     fs.readFile("application/test.json", (err, data) => {
         if (err) {
             console.log("There is An Error");
         }
-        ArrayProduct = JSON.parse(data);
-        ArrayProduct = JSON.stringify(ArrayProduct);
-        console.log("1", ArrayProduct);
+        // Get the Old Products
+        let ArrayProduct = JSON.parse(data);
+        console.log("array of products", ArrayProduct);
+        if (ArrayProduct.length == 0) {
+            console.log("Empty Json File");
+        }
+
+        // Push New Product
         ArrayProduct.push(ProductObj);
         console.log(ArrayProduct);
+        console.log(typeof ArrayProduct);
+
+        // Write The Products in JSON file
+        fs.writeFile("application/test.json", JSON.stringify(ArrayProduct), (err) => {
+            if (err) {
+                console.log("There Is An Error Here");
+            }
+        });
+
     });
 
-
-    // fs.writeFile("application/test.json", JSON.stringify(ArrayProduct), function(err) {
-    //     if (err) {
-    //         console.error(err);
-    //         return 1;
-    //     }
-    // });
 
 }
 
