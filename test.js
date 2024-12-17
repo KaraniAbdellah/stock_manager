@@ -1,4 +1,5 @@
 
+// JSon Operattions
 /*
     const fs = require("fs"); // file system
     console.log(fs); // print all function that exit in fs modulo 
@@ -26,7 +27,7 @@
 */
 
 const fs = require("fs"); // file system
-// console.log(fs);
+console.log(fs); // get all functions
 const JsonFile = "application/test.json"; 
 
 fs.readFile(JsonFile, function(err, data) {
@@ -45,6 +46,7 @@ fs.readFile(JsonFile, function(err, data) {
         let JsonObject = JSON.stringify(DataObject);
         console.log(JsonObject);
 
+        // write thgought the file
         fs.writeFile(JsonFile, JsonObject, function(err) {
             console.log(err);
         });
