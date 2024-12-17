@@ -4,6 +4,14 @@ const prompt = require("./packages/node_modules/prompt-sync")();
 const fs = require("fs");
 
 
+// Colors Declaration
+const green = '\x1b[32m';
+const red = '\x1b[31m';
+const blue = '\x1b[34m';
+const yellow = '\x1b[33m';
+const reset = '\x1b[0m';
+
+
 /*
     addProduct(name, description, quantity, price)
     listProducts()
@@ -14,44 +22,39 @@ const fs = require("fs");
 
 // Variables Decalaration
 let choose, name, description, price, quantity;
+const JsonFile = "application/dataProduct.json";
 
 
-// Save Product
-function SaveProduct() {
-    fs.readFile("application/dataProduct.json", (data, err) => {
-        // Check If There is an Error
-        if (err) {
-            console.log(err); return;
-        }
-        // Get The Data From JSON
-        let DataProduct = JSON.parse(data);
-        console.log(DataProduct);
-        // Add Product into the JSON Object
-        DataProduct.push({
-            name: name,
-            price: price,
-            quantity: quantity,
-            description: description
-        });
-        // Convert Js Object to Json Object
-        let DataProductAsJson = JSON.stringify(DataProduct);
-        // Save Data into dataProduct.json
-        fs.writeFile("application/dataProduct.json", DataProductAsJson, err => {
-            if (err) {
-                console.log(err); return;
-            }
-            console.log("Data Saved Succffully");
-        });
-    });
+// Save Product in JSON File
+function SaveProduct(name, description, quantity, price) {
+
+    // Get The Products
+    fs.readFile(JsonFile, (err, data) => {
+        
+    })
+    let ProductObj = {
+        name: name,
+        description: description,
+        quantity: quantity,
+        price: price
+    };
+    let JsonProduct = JSON.stringify(ProductObj);
+
+
+
 }
 
 
 // Add Product Function
-function addProduct(name, description, quantity, price) {
-
+function addProduct() {
+    name = prompt("Enter Product Name: ");
+    description = prompt("Enter Product Description: ");
+    price = Number(prompt("Enter Product Price: "));
+    quantity = Number(prompt("Enter Product Quantity: "));
+    SaveProduct(name, description, quantity, price);
 }
 
-// Method For Display The Menu
+// Display The Menu
 function Menu() {
     console.log("1. Add Product");
     console.log("2. Display All Product");
@@ -67,12 +70,10 @@ do {
 
     switch(choose) {
         case 1: {
-            name = prompt("Enter Product Name: ");
-            description = prompt("Enter Product Description: ");
-            price = Number(prompt("Enter Product Price: "));
-            quantity = Number(prompt("Enter Product Quantity: "));
-            addProduct(name, description, quantity, price);
-            console.log("addProduct Called");
+            addProduct();
+            console.log(green, "--------------------------");
+            console.log("Product Add Succefully");
+            console.log("--------------------------", reset);
         }
     }
 
