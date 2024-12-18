@@ -19,24 +19,10 @@ let choose, name, description, price, quantity;
 const JsonFile = "application/dataProduct.json";
 
 
-// Save Product in JSON File
-function SaveProduct(name, description, quantity, price) {
-    // Create a JS Object
-    let NewProduct = {
-        name: name,
-        description: description,
-        quantity: quantity,
-        price: price
-    };
+// For Store Json Object to JSOn File
+function AddToJsonFile(NewProduct) {
     let ArrayOfProduct;
-    
-    // Get All Product From File
-    /*
-        data: return json object as binary data
-        JSON.parse(data): convert the json object to JS object
-    */
     fs.readFile(JsonFile, function(err, data) {
-
         if (err) {
             console.log("Problem in Json File");
             return;
@@ -45,12 +31,11 @@ function SaveProduct(name, description, quantity, price) {
         try {
             ArrayOfProduct = JSON.parse(data);
             ArrayOfProduct.push(NewProduct);
-            return;
         } catch(err) {
             // Empty JSON File
             console.log("error", err);
             ArrayOfProduct = "[]";
-            SaveProduct(name, description, quantity, price);
+            SaveProduct(NewProduct);
         }
 
         // Write The Data in JSON File
@@ -61,6 +46,21 @@ function SaveProduct(name, description, quantity, price) {
         });
         
     });
+}
+
+
+// Save Product in JSON File
+function SaveProduct(name, description, quantity, price) {
+    // Create a JS Object
+    let NewProduct = {
+        name: name,
+        description: description,
+        quantity: quantity,
+        price: price
+    };
+
+    AddToJsonFile(NewProduct);
+    
 }
 
 
