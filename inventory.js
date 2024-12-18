@@ -5,7 +5,6 @@ const prompt = require("./packages/node_modules/prompt-sync")();
 const fs = require("fs");
 const { hostname } = require("os");
 
-
 // Colors Declaration
 const green = '\x1b[32m';
 const red = '\x1b[31m';
@@ -18,36 +17,16 @@ const reset = '\x1b[0m';
 let choose, name, description, price, quantity;
 const JsonFile = "application/dataProduct.json";
 
-
-// For Store Json Object to JSOn File
-function AddToJsonFile(NewProduct) {
-    let ArrayOfProduct;
-    fs.readFile(JsonFile, function(err, data) {
-        if (err) {
-            console.log("Problem in Json File");
-            return;
-        }
-
-        try {
-            ArrayOfProduct = JSON.parse(data);
-            ArrayOfProduct.push(NewProduct);
-            fs.writeFile(JsonFile, JSON.stringify(ArrayOfProduct), function(err) {
-                if (err) console.log("There is an Error");
-            });
-        } catch(err) {
-            // Empty JSON File
-            ArrayOfProduct = "[]";
-            // Write The Data in JSON File
-            fs.writeFile(JsonFile, ArrayOfProduct, function(err) {
-                if (err) console.log("There is an Error");
-            });
-            // Add Product Again
-            AddToJsonFile(NewProduct);
-        }
-
-        
-    });
+// Get Old Products
+let ArrayOfProduct = fs.readFileSync(JsonFile, "utf-8")
+if (ArrayOfProduct == "") {
+    fs.writeFileSync(JsonFile, "[]");
+} else {
+    // Get The Data Here
+    ArrayOfProduct = [];
+    console.log(ArrayOfProduct);
 }
+
 
 
 // Save Product in JSON File
@@ -60,8 +39,9 @@ function SaveProduct(name, description, quantity, price) {
         price: price
     };
 
-    // Add Product To JSON File
-    AddToJsonFile(NewProduct);
+    // Add Product To Array Of Products
+    ArrayOfProduct.push(NewProduct);
+    fs.writeFileSync(JsonFile, ArrayOfProduct);
     
 }
 
@@ -89,17 +69,23 @@ function Menu() {
 // List All Products
 function listProduct() {
     /*
-        It is asynchronous, meaning it reads the file in the background
-        and the program does not wait for it to finish before moving on.
+        readFile(): It is asynchronous, meaning it reads the file in the background
+            and the program does not wait for it to finish before moving on.
     */
-    console.log("--------------------------");
-    fs.readFile(JsonFile, (err, data) => {
-        if (err) {
-            console.log(err);
+    try {
+        let ProductData = JSON.parse(JsonData);
+        console.log("--------------------------");
+        for (let i = 0; i < ProductData.length; i++) {
+            let Product = ProductData[i];
+            console;log(i + 1, "[name: " + Product.name, "description: " + Product.name +
+                "price: " + Product.price, "quantity: " + Product.quantity + "]");
         }
-        console.log(JSON.parse(data));
-    });
-    console.log("--------------------------");
+        console.log("--------------------------", reset);
+    } catch(err) {
+        console.log(red, "--------------------------");
+        console.log("Empty File");
+        console.log("--------------------------", reset);
+    }
 }
 
 

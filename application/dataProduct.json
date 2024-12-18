@@ -1,20 +1,3 @@
 [
-    {
-        "name": "AML",
-        "description": "DES",
-        "quantity": 2,
-        "price": 2
-    },
-    {
-        "name": "AMLO",
-        "description": "DESCRIPTION",
-        "quantity": 2,
-        "price": 23
-    },
-    {
-        "name": "2",
-        "description": "2",
-        "quantity": 2,
-        "price": 2
-    }
+    
 ]
