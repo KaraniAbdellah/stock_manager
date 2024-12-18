@@ -41,6 +41,7 @@ function AddToJsonFile(NewProduct) {
             fs.writeFile(JsonFile, ArrayOfProduct, function(err) {
                 if (err) console.log("There is an Error");
             });
+            // Add Product Again
             AddToJsonFile(NewProduct);
         }
 
@@ -59,6 +60,7 @@ function SaveProduct(name, description, quantity, price) {
         price: price
     };
 
+    // Add Product To JSON File
     AddToJsonFile(NewProduct);
     
 }
@@ -86,7 +88,18 @@ function Menu() {
 
 // List All Products
 function listProduct() {
-
+    /*
+        It is asynchronous, meaning it reads the file in the background
+        and the program does not wait for it to finish before moving on.
+    */
+    console.log("--------------------------");
+    fs.readFile(JsonFile, (err, data) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(JSON.parse(data));
+    });
+    console.log("--------------------------");
 }
 
 
@@ -128,9 +141,9 @@ do {
             break;
         }
         case 5: {
-            console.log(blue, "--------------------------");
+            console.log(blue, "----------------------------------------------------");
             console.log("Thank Your For Using This Application");
-            console.log("--------------------------", reset);
+            console.log("----------------------------------------------------", reset);
             return 0;
         }
         default: {
