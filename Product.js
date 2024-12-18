@@ -1,12 +1,18 @@
 
 class Product {
+    // Make a Attribute Private
+    _id
+    _name
+    _desription
+    _price
+    _quantity
     // Constructor for create object
-    constructor (name, description, price, quantity, id) {
-        this.id = new Date();
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
+    constructor (name, description, price, quantity) {
+        this._id = new Date();
+        this._name = name;
+        this._description = description;
+        this._price = price;
+        this._quantity = quantity;
     }
 }
 

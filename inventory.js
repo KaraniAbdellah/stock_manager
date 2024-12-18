@@ -1,7 +1,9 @@
 // Import Product & prompt-sync & File System Modulo
+const { error } = require("console");
 const Product = require("./Product");
 const prompt = require("./packages/node_modules/prompt-sync")();
 const fs = require("fs");
+const { hostname } = require("os");
 
 
 // Colors Declaration
@@ -19,6 +21,7 @@ const JsonFile = "application/dataProduct.json";
 
 // Save Product in JSON File
 function SaveProduct(name, description, quantity, price) {
+    // Create a JS Object
     let NewProduct = {
         name: name,
         description: description,
@@ -28,16 +31,27 @@ function SaveProduct(name, description, quantity, price) {
     let ArrayOfProduct;
     
     // Get All Product From File
+    /*
+        data: return json object as binary data
+        JSON.parse(data): convert the json object to JS object
+    */
     fs.readFile(JsonFile, function(err, data) {
-        // Check If There is an Error
+
         if (err) {
-            console.log("There is an Error in Json File");
+            console.log("Problem in Json File");
             return;
         }
 
-        ArrayOfProduct = JSON.parse(data);
-        ArrayOfProduct.push(NewProduct);
-        console.log(ArrayOfProduct);
+        try {
+            ArrayOfProduct = JSON.parse(data);
+            ArrayOfProduct.push(NewProduct);
+            return;
+        } catch(err) {
+            // Empty JSON File
+            console.log("error", err);
+            ArrayOfProduct = "[]";
+            SaveProduct(name, description, quantity, price);
+        }
 
         // Write The Data in JSON File
         fs.writeFile(JsonFile, JSON.stringify(ArrayOfProduct), function(err) {
@@ -45,6 +59,7 @@ function SaveProduct(name, description, quantity, price) {
                 console.log("There is an Error");
             }
         });
+        
     });
 }
 
@@ -98,15 +113,19 @@ do {
             console.log(green, "--------------------------");
             console.log("Product Add Succefully");
             console.log("--------------------------", reset);
+            break;
         }
         case 2: {
             listProduct();
+            break;
         }
         case 3: {
             updateProduct();
+            break;
         }
         case 4: {
             DeleteProduct();
+            break;
         }
         default: {
             console.log(yellow, "--------------------------");
