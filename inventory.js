@@ -31,19 +31,19 @@ function AddToJsonFile(NewProduct) {
         try {
             ArrayOfProduct = JSON.parse(data);
             ArrayOfProduct.push(NewProduct);
+            fs.writeFile(JsonFile, JSON.stringify(ArrayOfProduct), function(err) {
+                if (err) console.log("There is an Error");
+            });
         } catch(err) {
             // Empty JSON File
-            console.log("error", err);
             ArrayOfProduct = "[]";
-            SaveProduct(NewProduct);
+            // Write The Data in JSON File
+            fs.writeFile(JsonFile, ArrayOfProduct, function(err) {
+                if (err) console.log("There is an Error");
+            });
+            AddToJsonFile(NewProduct);
         }
 
-        // Write The Data in JSON File
-        fs.writeFile(JsonFile, JSON.stringify(ArrayOfProduct), function(err) {
-            if (err) {
-                console.log("There is an Error");
-            }
-        });
         
     });
 }
@@ -76,11 +76,11 @@ function addProduct() {
 
 // Display The Menu
 function Menu() {
-    console.log("1. Add Product");
-    console.log("2. Display All Product");
-    console.log("3. Update  Product");
-    console.log("4. Delete Product");
-    console.log("5. Exit");
+    console.log("🛒 1. Add Product");
+    console.log("📦 2. Display All Product");
+    console.log("✏️ 3. Update  Product");
+    console.log("🗑️ 4. Delete Product");
+    console.log("🚪 5. Exit");
 }
 
 
@@ -105,7 +105,7 @@ function DeleteProduct() {
 
 do {
     Menu();
-    choose = Number(prompt("Enter Your Operations: "));
+    choose = Number(prompt("➡️ Enter Your Operations: "));
 
     switch(choose) {
         case 1: {
@@ -127,9 +127,15 @@ do {
             DeleteProduct();
             break;
         }
+        case 5: {
+            console.log(blue, "--------------------------");
+            console.log("Thank Your For Using This Application");
+            console.log("--------------------------", reset);
+            return 0;
+        }
         default: {
             console.log(yellow, "--------------------------");
-            console.log("Invalid Number");
+            console.log("⚠️ Invalid Number");
             console.log("--------------------------", reset);
         }
     }
