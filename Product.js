@@ -19,12 +19,12 @@ class Product {
     // setId(NewId) {
     //     this._id = NewId;
     // }
-    getName() {
-        return this.name;
-    }
-    setName(NewName) {
-        this.name = NewName;
-    }
+    // getName() {
+    //     return this._name;
+    // }
+    // setName(NewName) {
+    //     this._name = NewName;
+    // }
     // getDescription() {
     //     return this._description;
     // }

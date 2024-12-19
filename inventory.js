@@ -19,15 +19,12 @@ const JsonFile = "application/dataProduct.json";
 
 
 // Get Old Products
-/*
-    ArrayOfProducts: Array Contain Object From Product Class
-*/
 let ArrayOfProduct = fs.readFileSync(JsonFile, "utf-8");
 if (ArrayOfProduct == "") {
     fs.writeFileSync(JsonFile, "[]");
     ArrayOfProduct = []; // Init the Array
 } else {
-    // Parse The Data TO JS OBject 
+    // Convert Json Object To JS Object
     ArrayOfProduct = JSON.parse(ArrayOfProduct);
 }
 
@@ -39,9 +36,7 @@ function SaveProduct(name, description, quantity, price) {
     let NewProduct = new Product(name, description, price, quantity);
 
     // Add Product To Array Of Products
-    ArrayOfProduct.push(new Product(name, description, price, quantity));
-    console.log(new Product(name, description, price, quantity));
-    console.log(new Product(name, description, price, quantity) instanceof Product);
+    ArrayOfProduct.push(NewProduct);
 }
 
 
@@ -79,14 +74,15 @@ function listProduct() {
         readFile(): It is asynchronous, meaning it reads the file in the background
             and the program does not wait for it to finish before moving on.
     */
-//    console.log(ArrayOfProduct);
     if (ArrayOfProduct.length != 0) {
         console.log("--------------------------");
         for (let i = 0; i < ArrayOfProduct.length; i++) {
-            console.log(typeof ArrayOfProduct[i], ArrayOfProduct[i] instanceof Product);
-            // console.log(ArrayOfProduct[i]);
-            console.log(i + 1, "[name: " + ArrayOfProduct[i]["name"], ", description: " + ArrayOfProduct[i]["description"] +
-                ", price: " + ArrayOfProduct[i]["price"], ", quantity: " + ArrayOfProduct[i]["quantity"] + "]");
+            console.log(green, (i + 1), reset,": [name: " + 
+                ArrayOfProduct[i]["name"], ", description: " + 
+                ArrayOfProduct[i]["description"] + ", price: " + 
+                ArrayOfProduct[i]["price"], ", quantity: " 
+                + ArrayOfProduct[i]["quantity"] + "]"
+            );
         }
         console.log("--------------------------", reset);
     } else {
@@ -114,10 +110,10 @@ function updateProduct() {
             price = Number(prompt("Enter New Product Price: "));
             quantity = Number(prompt("Enter New Product Quantity: "));
             
-            ArrayOfProduct[id - 1]["name"] = "MOHALMED";
-            ArrayOfProduct[id - 1]["description"] = "description";
-            ArrayOfProduct[id - 1]["price"] = 2222;
-            ArrayOfProduct[id - 1]["quantity"] = 2222;
+            ArrayOfProduct[id - 1]["name"] = name;
+            ArrayOfProduct[id - 1]["description"] = description;
+            ArrayOfProduct[id - 1]["price"] = price;
+            ArrayOfProduct[id - 1]["quantity"] = quantity;
         }
     }
 }
@@ -130,7 +126,7 @@ function DeleteProduct() {
         return -1;
     } else {
         let id = Number(prompt("Enter The Number Of The Product: "));
-        if (id > ArrayOfProduct.length) {
+        if (id > ArrayOfProduct.length || id <= 0) {
             console.log(red, "--------------------------");
             console.log("Incorrect Number Of The Product");
             console.log("--------------------------", reset);
@@ -182,7 +178,7 @@ do {
             console.log(blue, "----------------------------------------------------");
             console.log("Thank Your For Using This Application");
             console.log("----------------------------------------------------");
-            fs.writeFileSync(JsonFile, JSON.stringify(ArrayOfProduct));
+            fs.writeFileSync(JsonFile, JSON.stringify(ArrayOfProduct, null, 4));
             return 0;
         }
         default: {
