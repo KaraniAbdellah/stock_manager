@@ -1,9 +1,9 @@
 // Import Product & prompt-sync & File System Modulo
-const { error, Console } = require("console");
 const Product = require("./Product");
 const prompt = require("./packages/node_modules/prompt-sync")();
 const fs = require("fs");
-const { hostname } = require("os");
+
+
 
 // Colors Declaration
 const green = '\x1b[32m';
@@ -19,9 +19,13 @@ const JsonFile = "application/dataProduct.json";
 
 
 // Get Old Products
-let ArrayOfProduct = fs.readFileSync(JsonFile, "utf-8")
+/*
+    ArrayOfProducts: Array Contain Object From Product Class
+*/
+let ArrayOfProduct = fs.readFileSync(JsonFile, "utf-8");
 if (ArrayOfProduct == "") {
     fs.writeFileSync(JsonFile, "[]");
+    ArrayOfProduct = []; // Init the Array
 } else {
     // Parse The Data TO JS OBject 
     ArrayOfProduct = JSON.parse(ArrayOfProduct);
@@ -32,15 +36,12 @@ if (ArrayOfProduct == "") {
 // Save Product in JSON File
 function SaveProduct(name, description, quantity, price) {
     // Create a JS Object
-    let NewProduct = {
-        name: name,
-        description: description,
-        quantity: quantity,
-        price: price
-    };
+    let NewProduct = new Product(name, description, price, quantity);
 
     // Add Product To Array Of Products
-    ArrayOfProduct.push(NewProduct); 
+    ArrayOfProduct.push(new Product(name, description, price, quantity));
+    console.log(new Product(name, description, price, quantity));
+    console.log(new Product(name, description, price, quantity) instanceof Product);
 }
 
 
@@ -64,24 +65,32 @@ function Menu() {
 }
 
 
+// Function To Display No Product Exit in Json File
+function displayNoProduct() {
+    console.log(red, "--------------------------");
+    console.log("No Product In The File");
+    console.log("--------------------------", reset);
+}
+
+
 // List All Products
 function listProduct() {
     /*
         readFile(): It is asynchronous, meaning it reads the file in the background
             and the program does not wait for it to finish before moving on.
     */
-    if (ArrayOfProduct.length) {
+//    console.log(ArrayOfProduct);
+    if (ArrayOfProduct.length != 0) {
         console.log("--------------------------");
         for (let i = 0; i < ArrayOfProduct.length; i++) {
-            let Product = ArrayOfProduct[i];
-            console.log(i + 1, "[name: " + Product.name, "description: " + Product.name +
-                "price: " + Product.price, "quantity: " + Product.quantity + "]");
+            console.log(typeof ArrayOfProduct[i], ArrayOfProduct[i] instanceof Product);
+            // console.log(ArrayOfProduct[i]);
+            console.log(i + 1, "[name: " + ArrayOfProduct[i]["name"], ", description: " + ArrayOfProduct[i]["description"] +
+                ", price: " + ArrayOfProduct[i]["price"], ", quantity: " + ArrayOfProduct[i]["quantity"] + "]");
         }
         console.log("--------------------------", reset);
     } else {
-            console.log(red, "--------------------------");
-            console.log("No Product In The File");
-        console.log("--------------------------", reset);
+            displayNoProduct();
     }
     
 }
@@ -89,34 +98,47 @@ function listProduct() {
 
 // Update Product
 function updateProduct() {
-    let id = prompt("Enter The Number Of The Product: ");
-    if (id > ArrayOfProduct.length) {
-        console.log(red, "--------------------------");
-        console.log("Incorrect Number Of The Product");
-        console.log("--------------------------", reset);
+    if (ArrayOfProduct.length == 0) {
+        displayNoProduct();
+        return -1;
     } else {
-        name = prompt("Enter New Product Name: ");
-        description = prompt("Enter New Product Description: ");
-        price = Number(prompt("Enter New Product Price: "));
-        quantity = Number(prompt("Enter New Product Quantity: "));
-
-        ArrayOfProduct[id]["name"] = name;
-        ArrayOfProduct[id]["description"] = description;
-        ArrayOfProduct[id]["price"] = price;
-        ArrayOfProduct[id]["quantity"] = quantity;
+        let id = Number(prompt("Enter The Number Of The Product: "));
+        if (id > ArrayOfProduct.length || id <= 0) {
+            console.log(red, "--------------------------");
+            console.log("Incorrect Number Of The Product");
+            console.log("--------------------------", reset);
+            return -1;
+        } else {
+            name = prompt("Enter New Product Name: ");
+            description = prompt("Enter New Product Description: ");
+            price = Number(prompt("Enter New Product Price: "));
+            quantity = Number(prompt("Enter New Product Quantity: "));
+            
+            ArrayOfProduct[id - 1]["name"] = "MOHALMED";
+            ArrayOfProduct[id - 1]["description"] = "description";
+            ArrayOfProduct[id - 1]["price"] = 2222;
+            ArrayOfProduct[id - 1]["quantity"] = 2222;
+        }
     }
 }
 
 
 // Delete Product
 function DeleteProduct() {
-    let id = prompt("Enter The Number Of The Product: ");
-    if (id > ArrayOfProduct.length) {
-        console.log(red, "--------------------------");
-        console.log("Incorrect Number Of The Product");
-        console.log("--------------------------", reset);
+    if (ArrayOfProduct.length == 0) {
+        displayNoProduct();
+        return -1;
     } else {
-        ArrayOfProduct.splice(id - 1, 1);
+        let id = Number(prompt("Enter The Number Of The Product: "));
+        if (id > ArrayOfProduct.length) {
+            console.log(red, "--------------------------");
+            console.log("Incorrect Number Of The Product");
+            console.log("--------------------------", reset);
+            return -1;
+        } else {
+            ArrayOfProduct.splice(id - 1, 1);
+        }
+        return 1;
     }
 }
 
@@ -139,14 +161,21 @@ do {
             break;
         }
         case 3: {
-            updateProduct();
-            console.log(green, "--------------------------");
-            console.log("Product Updated Succefully");
-            console.log("--------------------------", reset);
+            let check = updateProduct();
+            if (check != -1) {
+                console.log(green, "--------------------------");
+                console.log("Product Updated Succefully");
+                console.log("--------------------------", reset);
+            }
             break;
         }
         case 4: {
-            DeleteProduct();
+            let check = DeleteProduct();
+            if (check != -1) {
+                console.log(green, "--------------------------");
+                console.log("Product Deleted Succefully");
+                console.log("--------------------------", reset);
+            }
             break;
         }
         case 5: {
