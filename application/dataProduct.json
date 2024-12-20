@@ -1,10 +1,23 @@
 [
     {
         "id": 0,
-        "name": "AMLO",
-        "description": "DELECIES",
-        "price": 299,
-        "quantity": 292
+        "name": "HP",
+        "description": "Ram 2GB",
+        "price": 20303,
+        "quantity": 2
+    },
+    {
+        "id": 0,
+        "name": "T-shirt",
+        "description": "small size",
+        "price": 203,
+        "quantity": 203
+    },
+    {
+        "id": 0,
+        "name": "PC",
+        "description": "23",
+        "price": null,
+        "quantity": null
     }
 ]
-
