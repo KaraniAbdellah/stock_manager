@@ -50,8 +50,14 @@ class Inventory {
     addProduct() {
         name = prompt("Enter Product Name: ");
         description = prompt("Enter Product Description: ");
-        price = Number(prompt("Enter Product Price: "));
-        quantity = Number(prompt("Enter Product Quantity: "));
+        do {
+            price = Number(prompt("Enter Product Price: "));
+
+        } while(isNaN(price) || price < 0);
+        do  {
+            quantity = Number(prompt("Enter Product Quantity: "));
+        } while(isNaN(quantity) || quantity < 0);
+
         Inventory.SaveProduct(name, description, quantity, price);
     }
 
@@ -102,8 +108,13 @@ class Inventory {
             } else {
                 name = prompt("Enter New Product Name: ");
                 description = prompt("Enter New Product Description: ");
-                price = Number(prompt("Enter New Product Price: "));
-                quantity = Number(prompt("Enter New Product Quantity: "));
+                do {
+                    price = Number(prompt("Enter New Product Price: "));
+        
+                } while(isNaN(price) || price < 0);
+                do  {
+                    quantity = Number(prompt("Enter New Product Quantity: "));
+                } while(isNaN(quantity) || quantity < 0);
                 
                 ArrayOfProduct[id - 1]["name"] = name;
                 ArrayOfProduct[id - 1]["description"] = description;
