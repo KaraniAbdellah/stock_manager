@@ -1,6 +1,5 @@
 
 class Product {
-    // Make a Attribute Private
     static count = 0;
     // Constructor for create object
     constructor (name, description, price, quantity) {
@@ -11,39 +10,6 @@ class Product {
         this.quantity = quantity;
         Product.count += 1;
     }
-
-    // // Setters & Getters
-    // getId() {
-    //     return this._id;
-    // }
-    // setId(NewId) {
-    //     this._id = NewId;
-    // }
-    // getName() {
-    //     return this._name;
-    // }
-    // setName(NewName) {
-    //     this._name = NewName;
-    // }
-    // getDescription() {
-    //     return this._description;
-    // }
-    // setDescription(NewDescription) {
-    //     this._description = NewDescription;
-    // }
-    // getQuantity() {
-    //     return this._quantity;
-    // }
-    // setQuantity(NewQuantity) {
-    //     this._quantity = NewQuantity;
-    // }
-    // getPrice() {
-    //     return this._price;
-    // }
-    // setPrice(NewPrice) {
-    //     this._price = NewPrice; 
-    // }
-
 }
 
 module.exports = Product;
