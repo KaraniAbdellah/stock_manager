@@ -1,3 +1,7 @@
+# Images
+<img src = "img/Screenshot 2024-12-23 202849.png">
+<img src = "img/Screenshot 2024-12-23 202932.png">
+
 # 🛒 Inventory Management System
 
 A simple Node.js application to manage products using JSON files. It allows adding, listing, updating, and deleting products.
