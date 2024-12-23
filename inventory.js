@@ -7,8 +7,7 @@ const fs = require("fs");
 
 // Colors Declaration
 const green = '\x1b[32m';
-const
- red = '\x1b[31m';
+const red = '\x1b[31m';
 const blue = '\x1b[34m';
 const yellow = '\x1b[33m';
 const reset = '\x1b[0m';
