@@ -95,6 +95,7 @@ class Inventory {
 
     // Update Product
     updateProduct() {
+        this.listProduct();
         if (ArrayOfProduct.length == 0) {
             Inventory.displayNoProduct();
             return -1;
@@ -104,13 +105,13 @@ class Inventory {
                 console.log(red, "------------------------------------");
                 console.log("⛔️ Incorrect Number Of The Product");
                 console.log("------------------------------------", reset);
+                this.updateProduct();                
                 return -1;
             } else {
                 name = prompt("Enter New Product Name: ");
                 description = prompt("Enter New Product Description: ");
                 do {
                     price = Number(prompt("Enter New Product Price: "));
-        
                 } while(isNaN(price) || price < 0);
                 do  {
                     quantity = Number(prompt("Enter New Product Quantity: "));
