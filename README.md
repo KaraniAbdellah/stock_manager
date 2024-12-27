@@ -28,5 +28,6 @@ A simple Node.js application to manage products using JSON files. It allows addi
 <p><b>🖊️ prompt-sync</b> for user input.</p>
 <p><b>📁 fs</b> for file handling..</p>
 
+*❤️ made with love by abdellah karani ❤️*
 
-made with love by **abdellah karani**
+
